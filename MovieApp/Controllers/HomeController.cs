@@ -22,7 +22,11 @@ namespace MovieApp.Controllers
         // GET: Home/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var movieToSearchOnIMDB = (from m in _db.Movies
+                               where m.Id == id
+                               select m).First();
+
+            return Redirect("http://www.imdb.com/find?ref_=nv_sr_fn&q="+movieToSearchOnIMDB.Title+"&s=all");
         }
 
         // GET: Home/Create
