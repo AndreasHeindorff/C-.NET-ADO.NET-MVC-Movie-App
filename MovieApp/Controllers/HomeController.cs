@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+//using System.Data.Objects;
+using System.Data.Entity;
 
 namespace MovieApp.Controllers
 {
     public class HomeController : Controller
     {
-
         private MoviesDBModel _db = new MoviesDBModel();
-
 
         // GET: Home
         public ActionResult Index()
@@ -36,36 +36,31 @@ namespace MovieApp.Controllers
         public ActionResult Create([Bind(Exclude = "Id")] Movie movieToCreate)
         {
             if (!ModelState.IsValid)
-
                 return View();
 
             _db.Movies.Add(movieToCreate);
-
             _db.SaveChanges();
-
             return RedirectToAction("Index");
         }
 
         // GET: Home/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var movieToEdit = (from m in _db.Movies
+                               where m.Id == id
+                               select m).First();
+
+            return View(movieToEdit);
         }
 
         // POST: Home/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit(Movie movieToEdit)
         {
-            try
-            {
-                // TODO: Add update logic here
+            _db.Entry(movieToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: Home/Delete/5
