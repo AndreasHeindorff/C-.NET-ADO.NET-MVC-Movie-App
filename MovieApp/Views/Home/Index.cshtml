@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<MovieApp.Models.Movie>
 
-@{
-    Layout = null;
-}
+
+
 
 <!DOCTYPE html>
 
@@ -12,12 +11,15 @@
     <title>Index</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    @*<p>
+        @Html.ActionLink("Add New Movie", "Create")
+    </p>*@
     
+    <br/>
+    <br />
+
     <div class="container">
-        <table class="table-bordered">
+        <table class="table-striped">
             <thead>
                 <tr>
                     <th> @Html.DisplayNameFor(model => model.Title) </th>
@@ -46,5 +48,12 @@
             </tbody>
         </table>
     </div>
+    <br />
+    <div class="container">
+        <button type="button" class="btn btn-default">
+            @Html.ActionLink("Add New Movie", "Create")
+        </button>
+    </div>
+
 </body>
 </html>

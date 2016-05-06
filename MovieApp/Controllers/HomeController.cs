@@ -63,26 +63,37 @@ namespace MovieApp.Controllers
 
         }
 
-        // GET: Home/Delete/5
+        //GET: Home/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var movieToDelete = (from m in _db.Movies
+                                 where m.Id == id
+                                 select m).First();
+            _db.Movies.Remove(movieToDelete);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        // POST: Home/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //public ActionResult Delete(int id)
+        //{
+        //    var movieToDelete = (from m in _db.Movies
+        //                         where m.Id == id
+        //                         select m).First();
+        //    return View(movieToDelete);
+        //}
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+
+
+        ////Currently unused. Might implement confirmation box later
+        //// POST: Home/Delete/5
+        //[HttpPost]
+        //public ActionResult Delete()
+        //{
+
+        //    _db.Movies.Remove();
+
+
+        //    return RedirectToAction("Index");
+        //}
     }
 }
